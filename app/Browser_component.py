@@ -4,6 +4,7 @@ from RPA.Desktop import Desktop
 # from qrlib.QRProcess import QRProcess
 # from qrlib.QRComponent import QRComponent
 # from Utils import remove_punctuations
+from api_test import APIComponent
 import time
 import logging
 
@@ -18,6 +19,7 @@ class DarazBot():
         self.browser = Selenium(auto_close=True)
         self.desktop = Desktop()
         self.item_link = []
+        self.test_api = APIComponent()
 
     def open_available_broser(self):
         try:
@@ -49,31 +51,48 @@ class DarazBot():
         # self.browser.switch_browser(shadow_root)
         # shadow_text = self.browser.get_webelements("[class='airship-alert-body']").text
         # logging.info(shadow_text)
-        str = '''document.querySelector("body > div.airship-html-prompt-shadow").shadowRoot.querySelector("div > div > div.airship-alert-buttons > button.airship-btn.airship-btn-deny")'''
-        popup = self.browser.execute_javascript(str)
+        # str = '''document.querySelector("body > div.airship-html-prompt-shadow").shadowRoot.querySelector("div > div > div.airship-alert-buttons > button.airship-btn.airship-btn-deny")'''
+        # popup = self.browser.execute_javascript(str)
+        # time.sleep(2)
+        # self.browser.click_button(popup)
+        # logging.info('button click')
         time.sleep(2)
-        self.browser.click_button(popup)
-        logging.info('button click')
-        time.sleep(2)
-        # self.desktop.click("image:D:\\Intern\\bot-starter-kit-v2.0-optimize-20230623T052857Z-001\\bot-starter-kit-v2.0-optimize\\app\\image\\not_intrested.png")
+        self.desktop.click("image:D:\\Intern\\bot-starter-kit-v2.0-optimize-20230623T052857Z-001\\bot-starter-kit-v2.0-optimize\\app\\image\\not_intrested.png")
        
+        data = self.test_api.get_data()
+        for item in data:
+            self.browser.click_element(SEARCH_BAR)
+            logging.info("click the search bar")
+            self.browser.input_text(SEARCH_BAR,item)
+            logging.info("input item in the search bar")
+            self.browser.click_button(SEARCH)
+            self.get_link()
         
-        self.browser.click_element(SEARCH_BAR)
-        logging.info("click the search bar")
-        self.browser.input_text(SEARCH_BAR,"pen")
-        logging.info("input item in the search bar")
-        self.browser.click_button(SEARCH)
-        self.get_link()
-        count = 0
-        for links in self.item_link:
-            if count < 4:
-                self.browser.go_to(links)
-                item_name = self.browser.get_webelement("//div[@class='pdp-product-title']/div/span").text
-                logging.info(item_name)
-                price = self.browser.get_webelement("//div[@class='pdp-product-price']/span").text
-                logging.info(price)
-                count +=1
 
+            # webelement = self.browser.get_webelements("//div[@class='title--wFj93']/a")
+            # logging.info(webelement)
+            # count = 0
+            # for element in webelement:
+            #     link = self.browser.get_element_attribute(element,'href')
+            #     if count < 4:
+            #         self.browser.go_to(link)
+            #         item_name = self.browser.get_webelement("//div[@class='pdp-product-title']/div/span").text
+            #         logging.info(item_name)
+            #         price = self.browser.get_webelement("//div[@class='pdp-product-price']/span").text
+            #         logging.info(price)
+            #         count +=1
+            # break
+
+            count = 0
+            for links in self.item_link:
+                if count < 4:
+                    self.browser.go_to(links)
+                    item_name = self.browser.get_webelement("//div[@class='pdp-product-title']/div/span").text
+                    logging.info(item_name)
+                    price = self.browser.get_webelement("//div[@class='pdp-product-price']/span").text
+                    logging.info(price)
+                    count +=1
+            self.item_link.clear()
 # def main():
 #     bot = DarazBot()
 #     bot.open_available_broser()
