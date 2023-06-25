@@ -47,11 +47,17 @@ class DarazBot():
         # # Switch to the Shadow DOM context
         # logging.info('Execute shadow root')
         # self.browser.switch_browser(shadow_root)
-        logging.info('Scraping item')
-        self.desktop.click("image:C:\\Users\\NMB\Desktop\\bot-starter-kit-v2.0\\bot-starter-kit-v2.0-optimize\\app\\image\\not_interested.png")
+        # shadow_text = self.browser.get_webelements("[class='airship-alert-body']").text
+        # logging.info(shadow_text)
+        str = '''document.querySelector("body > div.airship-html-prompt-shadow").shadowRoot.querySelector("div > div > div.airship-alert-buttons > button.airship-btn.airship-btn-deny")'''
+        popup = self.browser.execute_javascript(str)
+        time.sleep(2)
+        self.browser.click_button(popup)
+        logging.info('button click')
+        time.sleep(2)
+        # self.desktop.click("image:D:\\Intern\\bot-starter-kit-v2.0-optimize-20230623T052857Z-001\\bot-starter-kit-v2.0-optimize\\app\\image\\not_intrested.png")
        
-        # self.browser.wait_until_page_contains('Daz wants to be friends with you')
-        # self.browser.click_button_when_visible("")
+        
         self.browser.click_element(SEARCH_BAR)
         logging.info("click the search bar")
         self.browser.input_text(SEARCH_BAR,"pen")

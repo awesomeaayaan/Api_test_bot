@@ -17,7 +17,7 @@ class APIComponent(QRComponent):
         self._authorization =  QREnv.VAULTS['authorization']['authorization']
         self._middleware_base_url = QREnv.VAULTS['urls']['middleware_url']
         logger.info("Vault data for APIs accessed successfully")    
-
+   
     def get_data(self, endpoint):
         logger = self.run_item.logger
         logger.info("Calling API")
@@ -31,7 +31,7 @@ class APIComponent(QRComponent):
         data = response.json()
         results = data["results"]
         logger.info(f"API  called successfull")
-        return results
+        return results 
     
     # def update_data(self, response, bot_remark, err=False):
     #     completed_at = BuiltIn().get_time()
